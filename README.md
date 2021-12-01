@@ -48,7 +48,7 @@ service to be accessible via Browser
 **Creating PVC for wordpress:**
 
 - I am creating PVC with storage class name as wordpress-volumeclaim.yaml
-- Now deploy this file (wordpress-volumeclaim.yaml_
+- Now deploy this file (wordpress-volumeclaim.yaml)
   - Kubectl apply –f wordpress-volumeclaim.yaml
 - Check for the status of PVC, using
   - kubectl get pvc
@@ -98,7 +98,7 @@ service to be accessible via Browser
 
 **Expose the wordpress service:**
 
-- Create the deployment and watch it by using
+- Create the deployment (wordpress-service.yaml) and watch it by using
   - Kubectl create –f wordpress-service.yaml
   - Kubectl get svc –watch
 - It will create a svc and will show a external IP, using which we can access wordpress in the browser
