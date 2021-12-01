@@ -71,36 +71,36 @@ service to be accessible via Browser
 **Configuring service account and create secrets:**
 
 - To let your WordPress app access the MySQL instance through a Cloud SQL proxy, create a service account
-  - SA\_NAME=cloudsql-proxy
- gcloud iam service-accounts create $SA\_NAME --display-name $SA\_NAME
+  -     SA\_NAME=cloudsql-proxy
+        gcloud iam service-accounts create $SA\_NAME --display-name $SA\_NAME
 - Add the service account email address as an environment variable
-  - SA\_EMAIL=$(gcloud iam service-accounts list \
-     --filter=displayName:$SA\_NAME \
-     --format=&#39;value(email)&#39;)
+  -     SA\_EMAIL=$(gcloud iam service-accounts list \
+        --filter=displayName:$SA\_NAME \
+        --format=&#39;value(email)&#39;)
 - Add the cloudsql.client role to your service account
-  - gcloud iam service-accounts keys create $WORKING\_DIR/key.json \
-     --iam-account $SA\_EMAIL
+  -     gcloud iam service-accounts keys create $WORKING\_DIR/key.json \
+        --iam-account $SA\_EMAIL
 - Create a Kubernetes secret for the MySQL credentials
-  - kubectl create secret generic cloudsql-db-credentials \
-     --from-literal username=wordpress \
-     --from-literal password=$CLOUD\_SQL\_PASSWORD
+  -     kubectl create secret generic cloudsql-db-credentials \
+        --from-literal username=wordpress \
+        --from-literal password=$CLOUD\_SQL\_PASSWORD
 - Create a Kubernetes secret for the service account credentials
-  - kubectl create secret generic cloudsql-instance-credentials \
-     --from-file $WORKING\_DIR/key.json
+  -     kubectl create secret generic cloudsql-instance-credentials \
+        --from-file $WORKING\_DIR/key.json
 
 **Deploying Wordpress:**
 
 - Deploy the file (wordpress\_cloudsql.yaml)
-  - Kubectl create –f wordpress\_cloudsql.yaml
+  -     Kubectl create –f wordpress\_cloudsql.yaml
 - Watch the deployment using
-  - Kubectl get pods –watch
+  -     Kubectl get pods –watch
 - After few mins the pods starts to run
 
 **Expose the wordpress service:**
 
 - Create the deployment (wordpress-service.yaml) and watch it by using
-  - Kubectl create –f wordpress-service.yaml
-  - Kubectl get svc –watch
+  -     Kubectl create –f wordpress-service.yaml
+  -     Kubectl get svc –watch
 - It will create a svc and will show a external IP, using which we can access wordpress in the browser
 
 **Downloading and Installing Istio:**
@@ -108,25 +108,25 @@ service to be accessible via Browser
 Execute the below commands to download and install istio
 
 - To download the package
-  - curl -L https://istio.io/downloadIstio | sh -
+  -     curl -L https://istio.io/downloadIstio | sh -
 - Go to Istio package directory
-  - cd istio-1.12.0
+  -     cd istio-1.12.0
 - Add the istioctl client to your path
-  - export PATH=$PWD/bin:$PATH
+  -     export PATH=$PWD/bin:$PATH
 - Install Istio
-  - istioctl install --set profile=demo –y
+  -     istioctl install --set profile=demo –y
 
 **Routing traffic through Istio to access Wordpress application:**
 
 - Now we can see there is a separate namespace created for istio - &#39;**istio-system**&#39;
 
 - If you try to access the newly created WordPress using the external IP, in a browser, you will notice that nothing is served there. This is because Istio blocks all traffic coming to the service mesh which is not coming through one of its envoy proxies, and to enable it we have a gateway configuration (wordpress-gateway.yaml)
-  - kubectl create -f wordpress-gateway.yaml
+  -     kubectl create -f wordpress-gateway.yaml
 - And now we have the gateway created but there is no route. We have to create a route that will forward the traffic coming through the gateway to appropriate service (virtual-route.yaml)
-  - kubectl create -f virtual-route.yaml
+  -     kubectl create -f virtual-route.yaml
 - This will route the traffic that is getting in through the wordpress-gateway on port 80
 - I am now editing the svc of wordpress and changing the service type from LoadBalancer to ClusterIP, so that we cannot access the wordpress application directly
-  - kubectl edit svc wordpress
+  -     kubectl edit svc wordpress
 - Lets now check the external ip of &#39;istio-ingressgateway&#39;
-  - Kubectl get svc –n istio-system
+  -     Kubectl get svc –n istio-system
 
