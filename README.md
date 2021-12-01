@@ -118,9 +118,9 @@ Execute the below commands to download and install istio
 
 **Routing traffic through Istio to access Wordpress application:**
 
-- Now we can see there is a separate namespace created for istio - &#39;istio-system&#39;
+- Now we can see there is a separate namespace created for istio - &#39;**istio-system**&#39;
 
-If you try to access the newly created WordPress using the external IP, in a browser, you will notice that nothing is served there. This is because Istio blocks all traffic coming to the service mesh which is not coming through one of its envoy proxies, and to enable it we have a gateway configuration (wordpress-gateway.yaml)
+- If you try to access the newly created WordPress using the external IP, in a browser, you will notice that nothing is served there. This is because Istio blocks all traffic coming to the service mesh which is not coming through one of its envoy proxies, and to enable it we have a gateway configuration (wordpress-gateway.yaml)
   - kubectl create -f wordpress-gateway.yaml
 - And now we have the gateway created but there is no route. We have to create a route that will forward the traffic coming through the gateway to appropriate service (virtual-route.yaml)
   - kubectl create -f virtual-route.yaml
