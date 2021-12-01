@@ -48,10 +48,7 @@ service to be accessible via Browser
 **Creating PVC for wordpress:**
 
 - I am creating PVC with storage class name as wordpress-volumeclaim.yaml
-
-![](RackMultipart20211201-4-7pakjj_html_831a5f01e200d268.gif)
-
-- Now deploy this file
+- Now deploy this file (wordpress-volumeclaim.yaml_
   - Kubectl apply –f wordpress-volumeclaim.yaml
 - Check for the status of PVC, using
   - kubectl get pvc
@@ -83,7 +80,7 @@ service to be accessible via Browser
 - Add the cloudsql.client role to your service account
   - gcloud iam service-accounts keys create $WORKING\_DIR/key.json \
      --iam-account $SA\_EMAIL
-- Create a [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) for the MySQL credentials
+- Create a Kubernetes secret for the MySQL credentials
   - kubectl create secret generic cloudsql-db-credentials \
      --from-literal username=wordpress \
      --from-literal password=$CLOUD\_SQL\_PASSWORD
@@ -93,18 +90,13 @@ service to be accessible via Browser
 
 **Deploying Wordpress:**
 
-- Deploy the wordpress\_cloudsql.yaml
-
-![](RackMultipart20211201-4-7pakjj_html_c125f5290e5c96d3.gif)
-
+- Deploy the file (wordpress\_cloudsql.yaml)
   - Kubectl create –f wordpress\_cloudsql.yaml
 - Watch the deployment using
   - Kubectl get pods –watch
 - After few mins the pods starts to run
 
 **Expose the wordpress service:**
-
-![](RackMultipart20211201-4-7pakjj_html_af168c2ee71d603e.gif)
 
 - Create the deployment and watch it by using
   - Kubectl create –f wordpress-service.yaml
@@ -113,7 +105,7 @@ service to be accessible via Browser
 
 **Downloading and Installing Istio:**
 
-Execute the below commands to download and install istio (Refer: [https://istio.io/latest/docs/setup/getting-started/](https://istio.io/latest/docs/setup/getting-started/))
+Execute the below commands to download and install istio
 
 - To download the package
   - curl -L https://istio.io/downloadIstio | sh -
@@ -128,14 +120,10 @@ Execute the below commands to download and install istio (Refer: [https://istio.
 
 - Now we can see there is a separate namespace created for istio - &#39;istio-system&#39;
 
-If you try to access the newly created WordPress using the external IP, in a browser, you will notice that nothing is served there. This is because Istio blocks all traffic coming to the service mesh which is not coming through one of its envoy proxies, and to enable it we have a gateway configuration
-
-![](RackMultipart20211201-4-7pakjj_html_65c95bfd712e09ee.gif)
-
-- And now we have the gateway created but there is no route. We have to create a route that will forward the traffic coming through the gateway to appropriate service
-
-![](RackMultipart20211201-4-7pakjj_html_cfc00fa993f8f2c0.gif)
-
+If you try to access the newly created WordPress using the external IP, in a browser, you will notice that nothing is served there. This is because Istio blocks all traffic coming to the service mesh which is not coming through one of its envoy proxies, and to enable it we have a gateway configuration (wordpress-gateway.yaml)
+  - kubectl create -f wordpress-gateway.yaml
+- And now we have the gateway created but there is no route. We have to create a route that will forward the traffic coming through the gateway to appropriate service (virtual-route.yaml)
+  - kubectl create -f virtual-route.yaml
 - This will route the traffic that is getting in through the wordpress-gateway on port 80
 - I am now editing the svc of wordpress and changing the service type from LoadBalancer to ClusterIP, so that we cannot access the wordpress application directly
   - kubectl edit svc wordpress
