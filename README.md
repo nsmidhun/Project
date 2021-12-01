@@ -49,24 +49,24 @@ service to be accessible via Browser
 
 - I am creating PVC with storage class name as wordpress-volumeclaim.yaml
 - Now deploy this file (wordpress-volumeclaim.yaml)
-  - Kubectl apply –f wordpress-volumeclaim.yaml
+  -     Kubectl apply –f wordpress-volumeclaim.yaml
 - Check for the status of PVC, using
-  - kubectl get pvc
+  -     kubectl get pvc
 
 **Creating cloud SQL for MySQL instance:**
 
 - Creating a instance named mysql-wordpress-instance
-  - INSTANCE\_NAME=mysql-wordpress-instance
- gcloud sql instances create $INSTANCE\_NAME
+  -     INSTANCE\_NAME=mysql-wordpress-instance
+        gcloud sql instances create $INSTANCE\_NAME
 - Add instance connection name as environment variable
-  - export INSTANCE\_CONNECTION\_NAME=$(gcloud sql instances describe $INSTANCE\_NAME \
-     --format=&#39;value(connectionName)&#39;)
+  -     export INSTANCE\_CONNECTION\_NAME=$(gcloud sql instances describe $INSTANCE\_NAME \
+        --format=&#39;value(connectionName)&#39;)
 - Create a database for wordpress to store its data
-  - gcloud sql databases create wordpress --instance $INSTANCE\_NAME
+  -     gcloud sql databases create wordpress --instance $INSTANCE\_NAME
 - Create a database user called wordpress and a password for WordPress to authenticate to the instance
-  - CLOUD\_SQL\_PASSWORD=$(openssl rand -base64 18)
- gcloud sql users create wordpress --host=% --instance $INSTANCE\_NAME \
-     --password $CLOUD\_SQL\_PASSWORD
+  -     CLOUD\_SQL\_PASSWORD=$(openssl rand -base64 18)
+        gcloud sql users create wordpress --host=% --instance $INSTANCE\_NAME \
+        --password $CLOUD\_SQL\_PASSWORD
 
 **Configuring service account and create secrets:**
 
