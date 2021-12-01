@@ -141,4 +141,4 @@ If you try to access the newly created WordPress using the external IP, in a bro
   - kubectl edit svc wordpress
 - Lets now check the external ip of &#39;istio-ingressgateway&#39;
   - Kubectl get svc –n istio-system
-- And the IP is http:// 34.125.57.91
+
