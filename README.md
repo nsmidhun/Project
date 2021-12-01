@@ -32,7 +32,7 @@ service to be accessible via Browser
 **Setting up GCP environment:**
 
 - In Cloud Shell, set the default zone
-  - gcloud config set compute/zone us-west4-b
+  -     gcloud config set compute/zone us-west4-b
 - Set the PROJECT\_ID
   - export PROJECT\_ID=eternal-mark-328015
 
