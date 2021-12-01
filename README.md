@@ -34,16 +34,16 @@ service to be accessible via Browser
 - In Cloud Shell, set the default zone
   -     gcloud config set compute/zone us-west4-b
 - Set the PROJECT\_ID
-  - export PROJECT\_ID=eternal-mark-328015
+  -     export PROJECT\_ID=eternal-mark-328015
 
 **Creating GKE cluster:**
 
 - Create a new cluster named persistent-disk-tutorial with 3 nodes:
-  - CLUSTER\_NAME=persistent-disk-tutorial
- gcloud container clusters create $CLUSTER\_NAME \
-     --num-nodes=3 --enable-autoupgrade --no-enable-basic-auth \
-     --no-issue-client-certificate --enable-ip-alias --metadata \
-     disable-legacy-endpoints=true
+  -     CLUSTER\_NAME=persistent-disk-tutorial
+     gcloud container clusters create $CLUSTER\_NAME \
+         --num-nodes=3 --enable-autoupgrade --no-enable-basic-auth \
+         --no-issue-client-certificate --enable-ip-alias --metadata \
+         disable-legacy-endpoints=true
 
 **Creating PVC for wordpress:**
 
