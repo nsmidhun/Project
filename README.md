@@ -39,11 +39,11 @@ service to be accessible via Browser
 **Creating GKE cluster:**
 
 - Create a new cluster named persistent-disk-tutorial with 3 nodes:
-    CLUSTER_NAME=persistent-disk-tutorial
-       gcloud container clusters create $CLUSTER_NAME \
-    --num-nodes=3 --enable-autoupgrade --no-enable-basic-auth \
-    --no-issue-client-certificate --enable-ip-alias --metadata \
-    disable-legacy-endpoints=true
+-     CLUSTER_NAME=persistent-disk-tutorial
+      gcloud container clusters create $CLUSTER_NAME \
+      --num-nodes=3 --enable-autoupgrade --no-enable-basic-auth \
+      --no-issue-client-certificate --enable-ip-alias --metadata \
+      disable-legacy-endpoints=true
 
 **Creating PVC for wordpress:**
 
